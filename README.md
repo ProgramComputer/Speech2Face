@@ -147,3 +147,16 @@ def image_warping(src_img, src_landmarks, dest_landmarks):
     
     return torch.from_numpy(warp_img).float())
 ~~~
+### Requirements
+unzip faces.7z to zippedFaces/unzippedFaces
+pip install dlib
+pip install datasets
+python with lzma
+## DATASET CITATIONS
+[1] J. S. Chung, A. Nagrani, A. Zisserman  
+VoxCeleb2: Deep Speaker Recognition  
+INTERSPEECH, 2018.
+
+[2] A. Nagrani, J. S. Chung, A. Zisserman
+VoxCeleb: a large-scale speaker identification dataset  
+INTERSPEECH, 2017

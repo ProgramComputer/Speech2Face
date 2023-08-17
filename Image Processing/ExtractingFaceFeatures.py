@@ -12,12 +12,13 @@ from keras_vggface.vggface import VGGFace
 from keras.applications.vgg16 import preprocess_input
 import random
 from tqdm import tqdm
+import pandas as pd
 
 #############################
 # Face Detection
 #############################
 
-cnn_face_detector = dlib.cnn_face_detection_model_v1("mmod_human_face_detector.dat")
+cnn_face_detector = dlib.cnn_face_detection_model_v1("/workspaces/Speech2Face/Image Processing/mmod_human_face_detector.dat")
 
 def detect(gray, frame):
     """
@@ -54,13 +55,14 @@ vgg_features = VGGFace(include_top=True, input_shape=(224, 224, 3))
 vgg_features.layers.pop()
 vgg_features.layers.pop()
 vgg_features.outputs = [vgg_features.layers[-1].output]
-vgg_features.layers[-1].outbound_nodes = []
+#vgg_features.layers[-1].outbound_nodes = []
+vgg_features.layers[-1].outbound_nodes_value = []
 
 ########################################
 # Preprocessing data to Extract Features
 #########################################
 
-data_points = os.listdir("zippedFaces/unzippedFaces") ## GETTING DATA POINTS THAT IS NAME OF CELEBRTIES.
+data_points = os.listdir("/workspaces/Speech2Face/Image Processing/zippedFaces/unzippedFaces") ## GETTING DATA POINTS THAT IS NAME OF CELEBRTIES.
 
 no_of_record_per_image = 3  ## NUMBER OF TIMES EVERY CELEBRITIES (DIFFERENT) IMAGES IS TO BE STORED
 face_feature = np.zeros((len(data_points)*no_of_record_per_image,2048)) ### ARRAY THAT WILL STORE THE FACE FEATURE
@@ -93,7 +95,7 @@ for i in tqdm(range(len(data_points))):
 # Preprocessing data to Extract Target for Decoder
 ###################################################
 
-metadata = pd.read_csv("/content/drive/My Drive/datasetss/vox1_meta.csv",delimiter = "\t")
+metadata = pd.read_csv("/workspaces/Speech2Face/metadata.csv.csv",delimiter = "\t")
 Y = np.ones((3633,4096))
 for i in range(3633):
   img_path = "/content/face/" + str(i) + ".jpg"
