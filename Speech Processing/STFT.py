@@ -52,7 +52,21 @@ for folder in tqdm(folder_name):
 # Power Law Compression
 ###################################
 
-X = np.sign(X) * ( np.abs(X) ** 0.3 )
+#X = np.sign(X) * ( np.abs(X) ** 0.3 )
+chunk_size = 1000  # Adjust this based on your available RAM and performance
+
+# Load the original data in chunks and process them
+num_samples = len(X)
+num_chunks = (num_samples - 1) // chunk_size + 1
+
+for chunk_idx in range(num_chunks):
+    start_idx = chunk_idx * chunk_size
+    end_idx = min((chunk_idx + 1) * chunk_size, num_samples)
+
+    chunk = X[start_idx:end_idx]
+    processed_chunk = np.sign(chunk) * (np.abs(chunk) ** 0.3)
+
+    X[start_idx:end_idx] = processed_chunk
 
 ####################################
 # Saving File
